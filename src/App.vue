@@ -1,28 +1,53 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div v-for="(field,i) in fields" v-bind:key="i">
+      <div v-if="field.type=='text'">
+        <Name v-bind:name_field="field" />
+      </div>
+      <div v-else-if="field.type=='email'">
+        <Email v-bind:email_field="field" />
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Name from "./components/fields_components/Name.vue";
+import Email from "./components/fields_components/Email.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    HelloWorld
+    Name,
+    Email
+  },
+  data() {
+    return {
+      fields: [
+        {
+          name: "first_name",
+          type: "text",
+          label: "First Name",
+          placeholder: "First Name",
+          required: true,
+          validation_message: "First name is required"
+        },
+        {
+          name: "email",
+          label: "Email",
+          type: "email",
+          placeholder: "Email",
+          required: false,
+          validation_message: "Email is required"
+        },
+
+
+      ]
+    };
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
