@@ -9,7 +9,9 @@
         :placeholder="single_selection_field.label"
       />
     </div>
-    <p v-if="isFieldEmpty">{{single_selection_field.validation_message}}</p>
+    <p
+      v-if="isFieldEmpty && single_selection_field.required"
+    >{{single_selection_field.validation_message}}</p>
   </div>
 </template>
 
@@ -30,8 +32,9 @@ export default {
   },
   data() {
     return {
-      selected: null,
-      isFieldEmpty: false
+      selected: "",
+      isFieldEmpty: false,
+      isFieldRequired: this.single_selection_field.required
     };
   },
   methods: {
@@ -46,9 +49,14 @@ export default {
     },
     // method for field validation check
     checkIsFieldEmpty: function() {
-      if (this.selected == null) {
+      if (this.selected == "") {
         this.isFieldEmpty = true;
       } else this.isFieldEmpty = false;
+    },
+    // method for check if required field empty
+    // used in event bus
+    isRequiredFieldEmpty: function() {
+      return this.single_selection_field.required && this.selected == "";
     }
   },
   created() {
@@ -56,12 +64,26 @@ export default {
     bus.$on("submitClicked", data => {
       console.log("get from single selection field");
       this.checkIsFieldEmpty();
-      let fieldName = this.single_selection_field.label;
-      console.log("selected", this.selected);
-      this.$store.state.formData.push({ [fieldName]: this.selected });
-      console.log("store form data", this.$store.state.formData);
+
+      if (this.isRequiredFieldEmpty()) {
+        console.log("required re failed text");
+        bus.$emit("PassedValidation", false);
+      }
+
+      // put data in store if field is not empty
+      if (!this.isFieldEmpty) {
+        let fieldName = this.single_selection_field.label;
+        console.log("selected", this.selected);
+
+        // get value of the selected object
+        let key = Object.keys(this.selected)[0];
+        let value = this.selected[key];
+        this.$store.state.formData.push({ [fieldName]: value });
+        console.log("store form data", this.$store.state.formData);
+      }
     });
-  }
+  },
+  updated() {}
 };
 </script>
 

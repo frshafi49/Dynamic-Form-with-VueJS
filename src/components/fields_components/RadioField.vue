@@ -7,10 +7,10 @@
         v-for="(rf_op,i) in getArrayValueFromObject(radio_field.options[0])"
         v-bind:key="i"
       >
-        <input type="radio" v-bind:id="i" v-bind:value="rf_op" v-model="selected" />
-        <label v-bind:for="i">{{rf_op}}</label>
+        <input type="radio" v-bind:id="rf_op" v-bind:value="rf_op" v-model="selected" />
+        <label v-bind:for="rf_op">{{rf_op}}</label>
       </div>
-      <p v-if="isFieldEmpty">{{radio_field.validation_message}}</p>
+      <p v-if="isFieldEmpty && radio_field.required ">{{radio_field.validation_message}}</p>
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      selected: "",
+      selected: '',
       isFieldEmpty: false
     };
   },
@@ -44,6 +44,11 @@ export default {
       if (this.selected == "") {
         this.isFieldEmpty = true;
       } else this.isFieldEmpty = false;
+    },
+    // method for check if required field empty
+    // used in event bus
+    isRequiredFieldEmpty: function() {
+      return this.radio_field.required && this.selected == '';
     }
   },
   created() {
@@ -51,10 +56,19 @@ export default {
     bus.$on("submitClicked", data => {
       console.log("get from radio selection field");
       this.checkIsFieldEmpty();
+
+      if (this.isRequiredFieldEmpty()) {
+        console.log("required re failed text");
+        bus.$emit("PassedValidation", false);
+      }
+
+      // put data in store if field is not empty
+      if(!this.isFieldEmpty){
       let fieldName = this.radio_field.label;
       console.log("selected options", this.selected);
       this.$store.state.formData.push({ [fieldName]: this.selected });
       console.log("store form data", this.$store.state.formData);
+      }
     });
   }
 };

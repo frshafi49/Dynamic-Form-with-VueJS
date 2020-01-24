@@ -9,7 +9,7 @@
         optionLabel="brand"
         :placeholder="multi_selection_field.placeholder"
       />
-      <p v-if="isFieldEmpty">{{multi_selection_field.validation_message}}</p>
+      <p v-if="isFieldEmpty && multi_selection_field.required">{{multi_selection_field.validation_message}}</p>
     </div>
   </div>
 </template>
@@ -33,7 +33,8 @@ export default {
   data() {
     return {
       selectedOptions: null,
-      isFieldEmpty: false
+      isFieldEmpty: false,
+      isFieldRequired:this.multi_selection_field.required
     };
   },
   methods: {
@@ -53,6 +54,12 @@ export default {
       if (this.selectedOptions == null) {
         this.isFieldEmpty = true;
       } else this.isFieldEmpty = false;
+    },
+
+    // method for check if required field empty
+    // used in event bus
+    isRequiredFieldEmpty: function() {
+      return this.multi_selection_field.required && this.selectedOptions == null;
     }
   },
   created() {
@@ -60,10 +67,19 @@ export default {
     bus.$on("submitClicked", data => {
       console.log("get from multiple selection field");
       this.checkIsFieldEmpty();
+
+      if (this.isRequiredFieldEmpty()){
+        console.log('required re failed multi selection');
+        bus.$emit("PassedValidation", false);
+      }
+
+      // put data in store if field is not empty
+      if(!this.isFieldEmpty){
       let fieldName = this.multi_selection_field.label;
       console.log('selected options',this.selectedOptions);
       this.$store.state.formData.push({ [fieldName]: this.selectedOptions });
       console.log("store form data", this.$store.state.formData);
+      }
     });
   }
 };

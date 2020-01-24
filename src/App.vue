@@ -1,25 +1,26 @@
 <template>
   <div id="app">
-    <FormContainer />
+    <FormWindow />
   </div>
 </template>
 
 <script>
-// includeing FormContainer component
-import FormContainer from "./components/FormContainer";
+// includeing FormWindow component
+import FormWindow from "./components/FormWindow";
 
 export default {
   name: "app",
   components: {
-    FormContainer
+    FormWindow
   },
   data() {
-    return{
-
-    }
+    return {};
   }
 };
 </script>
 
 <style>
+/* #app {
+
+} */
 </style>

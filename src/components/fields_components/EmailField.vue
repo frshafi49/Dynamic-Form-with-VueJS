@@ -10,7 +10,7 @@
         v-bind:placeholder="email_field.placeholder"
         v-model="email"
       />
-      <p v-if="isFieldEmpty">{{email_field.validation_message}}</p>
+      <p v-if="isFieldEmpty && email_field.required">{{email_field.validation_message}}</p>
     </div>
   </div>
 </template>
@@ -29,7 +29,8 @@ export default {
   data() {
     return {
       email: "",
-      isFieldEmpty: false
+      isFieldEmpty: false,
+      isFieldRequired: this.email_field.required
     };
   },
   methods: {
@@ -38,6 +39,12 @@ export default {
       if (this.email == "") {
         this.isFieldEmpty = true;
       } else this.isFieldEmpty = false;
+    },
+
+    // method for check if required field empty
+    // used in event bus
+    isRequiredFieldEmpty: function() {
+      return this.email_field.required && this.email == "";
     }
   },
   created() {
@@ -45,10 +52,20 @@ export default {
     bus.$on("submitClicked", data => {
       console.log("get from email field");
       this.checkIsFieldEmpty();
-      let fieldName = this.email_field.label;
-      this.$store.state.formData.push({ [fieldName]: this.email });
-      console.log("store form data", this.$store.state.formData);
 
+      console.log('entered here email');
+      if (this.isRequiredFieldEmpty()){
+
+        console.log('required re failed email');
+        bus.$emit("PassedValidation", false);
+      }
+
+      // put data in store if field is not empty
+      if (!this.isFieldEmpty) {
+        let fieldName = this.email_field.label;
+        this.$store.state.formData.push({ [fieldName]: this.email });
+        console.log("store form data", this.$store.state.formData);
+      }
     });
   }
 };
@@ -67,6 +84,9 @@ export default {
 #email-field input {
   width: 200px;
   height: 20px;
+  padding: 15px 5px 15px 5px;
+  font-size: 15px;
+
 }
 #email-field p {
   margin: 10px;
