@@ -33,7 +33,6 @@ export default {
         let key = Object.keys(element)[0];
         tblHeader.push(key);
       });
-      console.log("table header", tblHeader);
       return tblHeader;
     },
 
@@ -56,16 +55,13 @@ export default {
           });
           //seperate them with comma
           let finalVal = concVal.join(",");
-          console.log("obj value", finalVal);
           tblBody.push(finalVal);
         }
         // if not array direcly add
         else {
           tblBody.push(value);
         }
-        console.log("table body", tblBody);
       });
-      //console.log("table header", tblHeader);
       return tblBody;
     }
   },
@@ -81,8 +77,6 @@ export default {
 #data-table {
   /* background-color:#d7ccc8; */
   padding: 20px 20px 20px 20px;
-  max-width: 850px;
-  margin: auto;
 }
 
 table,

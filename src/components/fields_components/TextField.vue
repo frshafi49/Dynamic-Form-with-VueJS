@@ -6,6 +6,7 @@
         id="name"
         v-bind:name="name_field.name"
         v-bind:type="name_field.email"
+        v-bind:required="name_field.required"
         v-bind:placeholder="name_field.placeholder"
         v-model="name"
       />

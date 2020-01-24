@@ -50,13 +50,10 @@ export default {
   created() {
     // listenting form submit button using event bus
     bus.$on("submitClicked", data => {
-      console.log("get from email field");
       this.checkIsFieldEmpty();
 
-      console.log('entered here email');
-      if (this.isRequiredFieldEmpty()){
-
-        console.log('required re failed email');
+      // passing required field event
+      if (this.isRequiredFieldEmpty()) {
         bus.$emit("PassedValidation", false);
       }
 
@@ -64,7 +61,6 @@ export default {
       if (!this.isFieldEmpty) {
         let fieldName = this.email_field.label;
         this.$store.state.formData.push({ [fieldName]: this.email });
-        console.log("store form data", this.$store.state.formData);
       }
     });
   }
@@ -86,7 +82,6 @@ export default {
   height: 20px;
   padding: 15px 5px 15px 5px;
   font-size: 15px;
-
 }
 #email-field p {
   margin: 10px;

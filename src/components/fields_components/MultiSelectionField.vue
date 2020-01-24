@@ -9,13 +9,14 @@
         optionLabel="brand"
         :placeholder="multi_selection_field.placeholder"
       />
-      <p v-if="isFieldEmpty && multi_selection_field.required">{{multi_selection_field.validation_message}}</p>
+      <p
+        v-if="isFieldEmpty && multi_selection_field.required"
+      >{{multi_selection_field.validation_message}}</p>
     </div>
   </div>
 </template>
 
 <script>
-
 import MultiSelect from "primevue/multiselect";
 import { bus } from "../../main";
 import { store } from "../../store/store";
@@ -34,7 +35,7 @@ export default {
     return {
       selectedOptions: null,
       isFieldEmpty: false,
-      isFieldRequired:this.multi_selection_field.required
+      isFieldRequired: this.multi_selection_field.required
     };
   },
   methods: {
@@ -45,7 +46,6 @@ export default {
       value.forEach(el => {
         customSelectVal.push({ brand: el });
       });
-      console.log("customSelectVal", customSelectVal);
       return customSelectVal;
     },
 
@@ -59,26 +59,25 @@ export default {
     // method for check if required field empty
     // used in event bus
     isRequiredFieldEmpty: function() {
-      return this.multi_selection_field.required && this.selectedOptions == null;
+      return (
+        this.multi_selection_field.required && this.selectedOptions == null
+      );
     }
   },
   created() {
     // listenting form submit button using event bus
     bus.$on("submitClicked", data => {
-      console.log("get from multiple selection field");
       this.checkIsFieldEmpty();
 
-      if (this.isRequiredFieldEmpty()){
-        console.log('required re failed multi selection');
+      // passing required field event
+      if (this.isRequiredFieldEmpty()) {
         bus.$emit("PassedValidation", false);
       }
 
       // put data in store if field is not empty
-      if(!this.isFieldEmpty){
-      let fieldName = this.multi_selection_field.label;
-      console.log('selected options',this.selectedOptions);
-      this.$store.state.formData.push({ [fieldName]: this.selectedOptions });
-      console.log("store form data", this.$store.state.formData);
+      if (!this.isFieldEmpty) {
+        let fieldName = this.multi_selection_field.label;
+        this.$store.state.formData.push({ [fieldName]: this.selectedOptions });
       }
     });
   }

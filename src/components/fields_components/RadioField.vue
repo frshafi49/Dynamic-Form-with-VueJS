@@ -16,7 +16,6 @@
 </template>
 
 <script>
-
 import { bus } from "../../main";
 import { store } from "../../store/store";
 
@@ -29,14 +28,13 @@ export default {
   },
   data() {
     return {
-      selected: '',
+      selected: "",
       isFieldEmpty: false
     };
   },
   methods: {
     // method for convertion radio options into array
     getArrayValueFromObject: function(obj) {
-      console.log("array value", Object.values(obj));
       return Object.values(obj);
     },
     // method for field validation check
@@ -48,26 +46,23 @@ export default {
     // method for check if required field empty
     // used in event bus
     isRequiredFieldEmpty: function() {
-      return this.radio_field.required && this.selected == '';
+      return this.radio_field.required && this.selected == "";
     }
   },
   created() {
     // listenting form submit button using event bus
     bus.$on("submitClicked", data => {
-      console.log("get from radio selection field");
       this.checkIsFieldEmpty();
 
+      // passing required field event
       if (this.isRequiredFieldEmpty()) {
-        console.log("required re failed text");
         bus.$emit("PassedValidation", false);
       }
 
       // put data in store if field is not empty
-      if(!this.isFieldEmpty){
-      let fieldName = this.radio_field.label;
-      console.log("selected options", this.selected);
-      this.$store.state.formData.push({ [fieldName]: this.selected });
-      console.log("store form data", this.$store.state.formData);
+      if (!this.isFieldEmpty) {
+        let fieldName = this.radio_field.label;
+        this.$store.state.formData.push({ [fieldName]: this.selected });
       }
     });
   }

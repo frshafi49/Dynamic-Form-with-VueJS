@@ -62,24 +62,21 @@ export default {
   created() {
     // listenting form submit button using event bus
     bus.$on("submitClicked", data => {
-      console.log("get from single selection field");
       this.checkIsFieldEmpty();
 
+      // passing require field event
       if (this.isRequiredFieldEmpty()) {
-        console.log("required re failed text");
         bus.$emit("PassedValidation", false);
       }
 
       // put data in store if field is not empty
       if (!this.isFieldEmpty) {
         let fieldName = this.single_selection_field.label;
-        console.log("selected", this.selected);
 
         // get value of the selected object
         let key = Object.keys(this.selected)[0];
         let value = this.selected[key];
         this.$store.state.formData.push({ [fieldName]: value });
-        console.log("store form data", this.$store.state.formData);
       }
     });
   },

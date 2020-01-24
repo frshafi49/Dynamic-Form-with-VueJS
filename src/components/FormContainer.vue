@@ -132,6 +132,7 @@ export default {
     bus.$on("PassedValidation", data => {
       console.log("required field validation passed", data);
       this.validationPassed = data;
+      console.log('validation passed',this.validationPassed);
 
     });
   },
@@ -148,7 +149,7 @@ export default {
     padding: 20px 20px 20px 20px;
     max-width: 600px;
     border-radius: 10px;
-    margin: 20px auto;
+    margin: 20px;
 }
 
 button{

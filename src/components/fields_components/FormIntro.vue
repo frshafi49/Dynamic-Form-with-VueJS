@@ -16,8 +16,8 @@ export default {
 </script>
 
 <style scoped>
-#form-intro{
-    margin-left: 10px;
+#form-intro {
+  margin-left: 10px;
 }
 </style>
 
