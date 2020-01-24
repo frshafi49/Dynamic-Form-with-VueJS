@@ -13,7 +13,11 @@ export default {
   components: {
     FormContainer
   },
-  data() {}
+  data() {
+    return{
+
+    }
+  }
 };
 </script>
 

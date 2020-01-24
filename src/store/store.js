@@ -7,7 +7,7 @@ export const store = new Vuex.Store({
     // strict: true, // restricts change vuex data without mutation
 
     state: {
-
+        formData:[]
     },
 
     getters: {
