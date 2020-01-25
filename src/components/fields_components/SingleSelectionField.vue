@@ -45,7 +45,6 @@ export default {
       value.forEach(el => {
         customSelectVal.push({ name: el });
       });
-      console.log("customSelectVal", customSelectVal);
       return customSelectVal;
     },
     // method for field validation check
