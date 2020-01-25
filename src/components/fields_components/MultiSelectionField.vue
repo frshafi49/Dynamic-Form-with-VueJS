@@ -9,6 +9,7 @@
         optionLabel="brand"
         :placeholder="multi_selection_field.placeholder"
       />
+      <br />
       <p
         v-if="isFieldEmpty && multi_selection_field.required"
       >{{multi_selection_field.validation_message}}</p>
@@ -60,7 +61,8 @@ export default {
     // used in event bus
     isRequiredFieldEmpty: function() {
       return (
-        this.multi_selection_field.required && this.selectedOptions == null
+        this.multi_selection_field.required &&
+        (this.selectedOptions == null || this.selectedOptions.lenght == 0)
       );
     }
   },
@@ -102,6 +104,7 @@ export default {
   margin: 10px;
   display: inline;
   color: red;
+  margin-left: 150px;
 }
 
 #multiselect {

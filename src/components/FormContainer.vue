@@ -92,6 +92,19 @@ export default {
           ]
         },
         {
+          name: "status",
+          type: "radio",
+          label: "Status",
+          required: true,
+          validation_message: "Status is required",
+          options: [
+            {
+              valid: "Valid",
+              invalid: "Invalid"
+            }
+          ]
+        },
+        {
           name: "internal_status",
           type: "select",
           label: "Internal Status",
@@ -103,19 +116,6 @@ export default {
               invalid: "Invalid"
             }
           ]
-        },
-        {
-          name: "jobtype",
-          type: "radio",
-          label: "Job Type",
-          required: true,
-          validation_message: "JobType is required",
-          options: [
-            {
-              valid: "Full",
-              invalid: "Part time"
-            }
-          ]
         }
       ]
     };
@@ -123,6 +123,7 @@ export default {
   methods: {
     // event fires during submit button pressed
     onSubmitClicked: function() {
+      //this.$store.state.formData = [];
       bus.$emit("submitClicked");
     }
   },
@@ -132,33 +133,27 @@ export default {
     bus.$on("PassedValidation", data => {
       console.log("required field validation passed", data);
       this.validationPassed = data;
-      console.log('validation passed',this.validationPassed);
-
+      console.log("validation passed", this.validationPassed);
     });
-  },
-  updated(){
-
   }
 };
 </script>
 
 <style scoped>
-
-#form-container{
-    background-color:#9e9e9e;
-    padding: 20px 20px 20px 20px;
-    max-width: 600px;
-    border-radius: 10px;
-    margin: 20px;
+#form-container {
+  background-color: #81d4fa;
+  padding: 20px 20px 20px 20px;
+  max-width: 600px;
+  border-radius: 10px;
+  margin: 20px;
 }
 
-button{
-    padding: 10px;
-    margin-left:8px;
-    margin-top: 10px;
-    background-color: #555555;
-    font-size: 16px;
-    color: white;
-
+button {
+  padding: 10px;
+  margin-left: 8px;
+  margin-top: 10px;
+  background-color: #555555;
+  font-size: 16px;
+  color: white;
 }
 </style>

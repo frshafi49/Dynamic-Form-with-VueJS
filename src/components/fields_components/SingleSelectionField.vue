@@ -8,10 +8,11 @@
         optionLabel="name"
         :placeholder="single_selection_field.label"
       />
+      <br/>
+      <p
+        v-if="isFieldEmpty && single_selection_field.required"
+      >{{single_selection_field.validation_message}}</p>
     </div>
-    <p
-      v-if="isFieldEmpty && single_selection_field.required"
-    >{{single_selection_field.validation_message}}</p>
   </div>
 </template>
 
@@ -102,6 +103,7 @@ export default {
   margin: 10px;
   display: inline;
   color: red;
+  margin-left: 150px;
 }
 
 #multiselect {

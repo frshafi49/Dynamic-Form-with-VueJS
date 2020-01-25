@@ -10,6 +10,7 @@
         v-bind:placeholder="name_field.placeholder"
         v-model="name"
       />
+      <br>
       <p v-if="isFieldEmpty && name_field.required">{{name_field.validation_message}}</p>
     </div>
   </div>
@@ -48,18 +49,13 @@ export default {
     }
   },
   created() {
-    console.log("is text field required", this.isFieldRequired);
-    console.log("is text field empty", this.isFieldEmpty);
-
     // listenting form submit button using event bus
     bus.$on("submitClicked", data => {
       // field validtaion check
       this.checkIsFieldEmpty();
 
-      console.log("entered here text");
-
+      // passing required field event
       if (this.isRequiredFieldEmpty()) {
-        console.log("required re failed text");
         bus.$emit("PassedValidation", false);
       }
 
@@ -67,7 +63,6 @@ export default {
       if (!this.isFieldEmpty) {
         let fieldName = this.name_field.label;
         this.$store.state.formData.push({ [fieldName]: this.name });
-        console.log("store form data", this.$store.state.formData);
       }
     });
   }
@@ -94,5 +89,6 @@ export default {
   margin: 10px;
   display: inline;
   color: red;
+  margin-left: 150px;
 }
 </style>

@@ -10,6 +10,7 @@
         <input type="radio" v-bind:id="rf_op" v-bind:value="rf_op" v-model="selected" />
         <label v-bind:for="rf_op">{{rf_op}}</label>
       </div>
+      <br>
       <p v-if="isFieldEmpty && radio_field.required ">{{radio_field.validation_message}}</p>
     </div>
   </div>
@@ -88,5 +89,6 @@ export default {
   margin: 10px;
   display: inline;
   color: red;
+  margin-left: 150px;
 }
 </style>

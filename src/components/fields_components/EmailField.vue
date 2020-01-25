@@ -10,6 +10,7 @@
         v-bind:placeholder="email_field.placeholder"
         v-model="email"
       />
+      <br>
       <p v-if="isFieldEmpty && email_field.required">{{email_field.validation_message}}</p>
     </div>
   </div>
@@ -87,5 +88,6 @@ export default {
   margin: 10px;
   display: inline;
   color: red;
+  margin-left: 150px;
 }
 </style>
